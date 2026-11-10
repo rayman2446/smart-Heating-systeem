@@ -28,7 +28,7 @@ De ESP32-code is geschreven in **C++ met de Arduino IDE**. De backend en het das
 
 ### Blokschema
 
-![Blokschema van het project](docs/blokschema.png)
+![Blokschema van het project](docs/images/blokschema.png)
 
 De regelvoorwaarde is: **verwarming inschakelen wanneer aanwezigheid is gedetecteerd én de temperatuur lager is dan de ingestelde grenswaarde**. De exacte grenswaarde en MQTT-topics worden in de configuratie van de software vastgelegd.
 
