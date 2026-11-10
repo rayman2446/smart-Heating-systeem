@@ -2,8 +2,8 @@
 #include <PubSubClient.h>
 #include <DHT.h>
 
-const char* ssid = "Proximus_1258";
-const char* password = "zsd65hwkm98lpo!";
+const char* ssid = "wifi-code";
+const char* password = "wachtwoord";
 const char* mqtt_server = "192.168.65.01"; // IP van je Raspberry Pi
 
 #define DHTPIN 4
