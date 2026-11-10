@@ -1,0 +1,11 @@
+mqtt:
+  sensor:
+    - name: "Temperatuur Kamer 1"
+      state_topic: "kamer1/temperatuur"
+      unit_of_measurement: "°C"
+      device_class: temperature
+      
+  sensor:
+    - name: "Status Beweging Kamer 1"
+      state_topic: "kamer1/beweging"
+      icon: mdi:run
