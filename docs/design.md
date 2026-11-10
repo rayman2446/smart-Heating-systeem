@@ -1,1 +1,1 @@
-![Blokschema van het project](docs/images/aansluitdiagram.png)
+![Blokschema van het project](docs/images/aansluit diagram.png)
