@@ -42,10 +42,6 @@ De firmware legt deze ESP32-aansluitingen vast:
 - Een elektrisch aansluitschema is nog niet beschikbaar. Voeg dit toe aan `docs/images/` en werk deze README bij zodra het schema is gecontroleerd.
 - Datasheets horen in [`docs/datasheets/`](../docs/datasheets/). Controleer de bestandsnamen en inhoud voordat je ze aan een component koppelt.
 
-## PCB
-
-Er is nog geen PCB-ontwerp of KiCad-project gedocumenteerd. Deze sectie kan worden ingevuld als er een PCB wordt ontworpen.
-
 ## Veiligheid en aandachtspunten
 
 - Test de software eerst met een veilige laagspanningsbelasting.
