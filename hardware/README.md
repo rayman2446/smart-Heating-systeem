@@ -1,93 +1,63 @@
 # Hardware
 
-> Deze map bevat alle hardware-gerelateerde bestanden voor het project
+Deze pagina beschrijft de hardware van de slimme klimaatregeling per ruimte. De componentenlijst is gebaseerd op de projectbeschrijving en de huidige ESP32-firmware. Waar gegevens of aansluitingen nog niet zijn vastgelegd, staat dat erbij in plaats van ze te veronderstellen.
 
----
+## Overzicht
 
-## 📂 Structuur
+Het systeem meet de temperatuur en beweging in een kamer met een ESP32, DHT22 en HC-SR501. De ESP32 verstuurt de meetgegevens via wifi en MQTT naar Home Assistant op een Raspberry Pi 4. Een 5V-relaismodule is voorzien om de verwarming te schakelen; de aansturing daarvan is nog niet aanwezig in de huidige firmware.
 
-```
-hardware/
-├── README.md              # Dit bestand
-├── schematics/           # KiCAD schema's
-│   └── [project].kicad_sch
-├── pcb/                  # KiCAD PCB ontwerp (indien van toepassing)
-│   └── [project].kicad_pcb
-└── datasheets/           # Componentdatasheets → Verplaats naar /docs/datasheets/
-```
+![Blokschema van het project](../docs/images/blokschema.png)
 
----
+> Dit is een blokschema, geen elektrisch bedradingsschema. De exacte bedrading en voedingsaansluitingen moeten nog worden vastgelegd.
 
-## 🧩 Componentenlijst
+## Componentenlijst
 
-> **Update deze lijst met alle hardware componenten die jullie gebruiken**
+| Component | Type/model | Functie | Aantal | Datasheet / status |
+|---|---|---|---:|---|
+| Edge device | ESP32 Development Board (ESP32-WROOM-32E) | Leest sensoren uit en communiceert via wifi en MQTT | 1 | Exact boardmodel en bijbehorende datasheet nog vastleggen |
+| Temperatuursensor | DHT22 | Meet de kamertemperatuur | 1 | Datasheet nog toevoegen aan [`docs/datasheets/`](../docs/datasheets/) |
+| Aanwezigheidssensor | HC-SR501 PIR | Detecteert beweging als indicatie van aanwezigheid | 1 | Datasheet nog toevoegen aan [`docs/datasheets/`](../docs/datasheets/) |
+| Actuator | 1-kanaals 5V-relaismodule | Schakelt de verwarmingsregeling | 1 | Exact model en datasheet nog vastleggen; aansluiting/firmware nog niet gedocumenteerd |
+| Centrale server | Raspberry Pi 4 | Draait Home Assistant en de Mosquitto MQTT-broker | 1 | Voedingsspecificatie afhankelijk van de gebruikte uitvoering en voeding |
 
-| Component | Type/Model | Functie | Datasheet | Aantal |
-|-----------|-----------|---------|-----------|--------|
-| Microcontroller | PSoC 6 | Hoofdcontroller | [Link](/docs/datasheets/P5oK6.pdf) | 1 |
-| Sensor | [Type] | [Functie] | [Link](/docs/datasheets/) | 1 |
-| ... | ... | ... | ... | ... |
+## Aansluitingen en communicatie
 
-**Vul deze tabel in met:**
-- Exacte type nummers
-- Wat elke component doet
-- Link naar datasheet (bewaar lokaal in `/docs/datasheets/`)
-- Aantal dat je nodig hebt
+De firmware legt deze ESP32-aansluitingen vast:
 
----
+| Signaal | ESP32-aansluiting | Opmerking |
+|---|---|---|
+| DHT22 DATA | GPIO 4 | Temperatuurmeting |
+| HC-SR501 OUT | GPIO 5 | Bewegingsdetectie |
+| Relaissignaal | Nog niet vastgelegd | Relaisaansturing ontbreekt nog in de firmware |
 
-## 🔌 Blokdiagram / Schema
+- **Communicatie:** wifi en MQTT; de huidige firmware gebruikt MQTT-poort `1883`.
+- **MQTT-topics:** `kamer1/temperatuur` en `kamer1/beweging`.
+- **ESP32-logicaniveau:** 3,3 V. Controleer vóór aansluiting of sensoren en de relaismodule hiermee elektrisch compatibel zijn; sluit een 5V-signaal niet rechtstreeks aan op een ESP32-GPIO.
+- **Voedingsspanning en stroomverbruik:** nog te bepalen op basis van de gekozen board-, sensor- en relaisuitvoering. Documenteer deze waarden na controle van de datasheets en de werkelijke opstelling.
 
-**Schematisch overzicht:**
+## Schema's en bestanden
 
-> **Voeg hier een afbeelding of diagram toe waarin de bedrading en verbindingen van de componenten worden weergegeven.**
->
-> - Voor week 1-2: Een handmatige schets is OK
-> - Later: Fritzing of KiCAD schematic export (PNG of PDF) 
+- [Blokschema (PNG)](../docs/images/blokschema.png)
+- [Blokschema (PDF)](../docs/images/blokschema%20IoT.pdf)
+- Een elektrisch aansluitschema is nog niet beschikbaar. Voeg dit toe aan `docs/images/` en werk deze README bij zodra het schema is gecontroleerd.
+- Datasheets horen in [`docs/datasheets/`](../docs/datasheets/). Controleer de bestandsnamen en inhoud voordat je ze aan een component koppelt.
 
----
+## PCB
 
-## ⚡ Specificaties
+Er is nog geen PCB-ontwerp of KiCad-project gedocumenteerd. Deze sectie kan worden ingevuld als er een PCB wordt ontworpen.
 
-### Voeding
-- **Spanning:** [bijv. 5V DC via USB]
-- **Stroomverbruik:** [bijv. max 500mA]
-- **Voedingsbron:** [bijv. USB powerbank]
+## Veiligheid en aandachtspunten
 
-### Communicatie
-- **Protocollen:** [bijv. UART, I²C, SPI]
-- **Pinnen:** [lijst belangrijke pinnen]
-- **Logica level:** [bijv. 3.3V]
+- Test de software eerst met een veilige laagspanningsbelasting.
+- Een relais dat netspanning of een verwarmingsinstallatie schakelt, moet correct gedimensioneerd en veilig geïsoleerd zijn. Laat de netspanningsaansluiting uitvoeren of controleren door iemand met de juiste kennis.
+- Leg de exacte relaistype, aansluitingen, voedingsvereisten en veilige schakelbelasting vast voordat de verwarming wordt aangesloten.
+- De huidige firmware leest de DHT22 en PIR uit, maar stuurt het relais nog niet aan.
 
----
+## Checklist
 
-## 🔧 PCB Ontwerp (optioneel)
-
-**Alleen invullen als je een PCB ontwerpt**
-
-- **KiCAD versie:** [bijv. 7.0]
-- **Aantal lagen:** [bijv. 2-layer]
-- **Afmetingen:** [bijv. 100x80mm]
-- **Producent:** [bijv. JLCPCB]
-
----
-
-## 📝 Aantekeningen
-
-**Belangrijke opmerkingen:**
-- ...
-- ...
-
-**Bekende problemen:**
-- ...
-- ...
-
----
-
-## ✅ Checklist
-
-- [ ] Componentenlijst volledig ingevuld
-- [ ] Schema/blokdiagram toegevoegd
-- [ ] Datasheets lokaal opgeslagen in `/docs/datasheets/`
-- [ ] KiCAD project werkend
-- [ ] Specificaties gedocumenteerd
+- [ ] Exacte componentmodellen en bijbehorende datasheets gecontroleerd
+- [ ] Elektrisch aansluitschema toegevoegd en gecontroleerd
+- [ ] Voedingsspanningen en stroomverbruik gemeten of uit datasheets bepaald
+- [ ] Compatibiliteit van de relaismodule met de 3,3V-ESP32-GPIO gecontroleerd
+- [ ] Relaisschakeling veilig getest met een laagspanningsbelasting
+- [ ] Firmware bijgewerkt en getest als de relaisaansturing wordt toegevoegd
