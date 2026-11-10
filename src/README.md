@@ -5,9 +5,8 @@
 > src/
 > ├── README.md
 > ├── [project-name]/
-> │   ├── main.c
-> │   ├── Makefile
-> │   └── ...
+> │   ├── esp.cpp
+> │   └── 
 > └── libs/
 > ```
 >
