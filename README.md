@@ -28,24 +28,7 @@ De ESP32-code is geschreven in **C++ met de Arduino IDE**. De backend en het das
 
 ### Blokschema
 
-```text
-[ DHT22 + HC-SR501 ]
-          │ meetwaarden en aanwezigheidsstatus
-          ▼
-       [ ESP32 ]
-          │ MQTT over WiFi: sensordata
-          ▼
-[ Raspberry Pi 4: Home Assistant + Mosquitto ]
-          │ MQTT over WiFi: besturingscommando
-          ▼
-       [ ESP32 ]
-          │ stuursignaal
-          ▼
-      [ Relais ]
-          │
-          ▼
-[ Verwarmingsregeling ]
-```
+![Blokschema van het project](docs/blokschema.png)
 
 De regelvoorwaarde is: **verwarming inschakelen wanneer aanwezigheid is gedetecteerd én de temperatuur lager is dan de ingestelde grenswaarde**. De exacte grenswaarde en MQTT-topics worden in de configuratie van de software vastgelegd.
 
